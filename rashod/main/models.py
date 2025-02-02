@@ -1,7 +1,7 @@
 from django.db import models
 
 class Kursy(models.Model):
-    name_kurs = models.CharField(max_length=20)
+    name_kurs = models.CharField(max_length=20,primary_key=True)
     poSpisku = models.CharField(max_length=10)
     naLitso = models.CharField(max_length=10)
     naryad = models.CharField(max_length=10)
@@ -13,4 +13,205 @@ class Kursy(models.Model):
 
     class Meta:
         verbose_name = 'Расход Курса'
-        verbose_name_plural = 'Расход курсов'
+        verbose_name_plural = 'а-Расход курсов'
+        ordering = ['name_kurs']
+
+class naryads(models.Model):
+    Kursy =  models.ForeignKey(Kursy, on_delete=models.CASCADE,related_name='naryads')
+    information_of_naryads = models.CharField(max_length=20, null=True, blank=True)
+    information_of_naryads_2 = models.CharField(max_length=20, null=True, blank=True)
+    information_of_naryads_3 = models.CharField(max_length=20, null=True, blank=True)
+    information_of_naryads_4 = models.CharField(max_length=20, null=True, blank=True)
+    information_of_naryads_5 = models.CharField(max_length=20, null=True, blank=True)
+    information_of_naryads_6 = models.CharField(max_length=20, null=True, blank=True)
+    information_of_naryads_7 = models.CharField(max_length=20, null=True, blank=True)
+    information_of_naryads_8 = models.CharField(max_length=20, null=True, blank=True)
+    information_of_naryads_9 = models.CharField(max_length=20, null=True, blank=True)
+    information_of_naryads_10 = models.CharField(max_length=20, null=True, blank=True)
+    information_of_naryads_11 = models.CharField(max_length=20, null=True, blank=True)
+    information_of_naryads_12 = models.CharField(max_length=20, null=True, blank=True)
+    information_of_naryads_13 = models.CharField(max_length=20, null=True, blank=True)
+    information_of_naryads_14 = models.CharField(max_length=20, null=True, blank=True)
+    information_of_naryads_15 = models.CharField(max_length=20, null=True, blank=True)
+    information_of_naryads_16 = models.CharField(max_length=20, null=True, blank=True)
+    information_of_naryads_17 = models.CharField(max_length=20, null=True, blank=True)
+    information_of_naryads_18 = models.CharField(max_length=20, null=True, blank=True)
+    information_of_naryads_19 = models.CharField(max_length=20, null=True, blank=True)
+    information_of_naryads_20 = models.CharField(max_length=20, null=True, blank=True)
+    information_of_naryads_21 = models.CharField(max_length=20, null=True, blank=True)
+    information_of_naryads_22 = models.CharField(max_length=20, null=True, blank=True)
+    information_of_naryads_23 = models.CharField(max_length=20, null=True, blank=True)
+    information_of_naryads_24 = models.CharField(max_length=20, null=True, blank=True)
+    information_of_naryads_25 = models.CharField(max_length=20, null=True, blank=True)
+    information_of_naryads_26 = models.CharField(max_length=20, null=True, blank=True)
+    information_of_naryads_27 = models.CharField(max_length=20, null=True, blank=True)
+    information_of_naryads_28 = models.CharField(max_length=20, null=True, blank=True)
+    information_of_naryads_29 = models.CharField(max_length=20, null=True, blank=True)
+    information_of_naryads_30 = models.CharField(max_length=20, null=True, blank=True)
+    information_of_naryads_31 = models.CharField(max_length=20, null=True, blank=True)
+    information_of_naryads_32 = models.CharField(max_length=20, null=True, blank=True)
+    information_of_naryads_33 = models.CharField(max_length=20, null=True, blank=True)
+    information_of_naryads_34 = models.CharField(max_length=20, null=True, blank=True)
+    information_of_naryads_35 = models.CharField(max_length=20, null=True, blank=True)
+    information_of_naryads_36 = models.CharField(max_length=20, null=True, blank=True)
+    information_of_naryads_37 = models.CharField(max_length=20, null=True, blank=True)
+    information_of_naryads_38 = models.CharField(max_length=20, null=True, blank=True)
+    information_of_naryads_39 = models.CharField(max_length=20, null=True, blank=True)
+    information_of_naryads_40 = models.CharField(max_length=20, null=True, blank=True)
+    objects = models.Manager()
+
+
+    class Meta:
+        verbose_name = 'Наряды Курса'
+        verbose_name_plural = 'Наряды курсов'
+
+
+class bolnyes(models.Model):
+    Kursy =  models.ForeignKey(Kursy, on_delete=models.CASCADE, related_name='bolnyes')
+    information_of_bolnyes = models.CharField(max_length=20, null=True, blank=True)
+    information_of_bolnyes_2 = models.CharField(max_length=20, null=True, blank=True)
+    information_of_bolnyes_3 = models.CharField(max_length=20, null=True, blank=True)
+    information_of_bolnyes_4 = models.CharField(max_length=20, null=True, blank=True)
+    information_of_bolnyes_5 = models.CharField(max_length=20, null=True, blank=True)
+    information_of_bolnyes_6 = models.CharField(max_length=20, null=True, blank=True)
+    information_of_bolnyes_7 = models.CharField(max_length=20, null=True, blank=True)
+    information_of_bolnyes_8 = models.CharField(max_length=20, null=True, blank=True)
+    information_of_bolnyes_9 = models.CharField(max_length=20, null=True, blank=True)
+    information_of_bolnyes_10 = models.CharField(max_length=20, null=True, blank=True)
+    information_of_bolnyes_11 = models.CharField(max_length=20, null=True, blank=True)
+    information_of_bolnyes_12 = models.CharField(max_length=20, null=True, blank=True)
+    information_of_bolnyes_13 = models.CharField(max_length=20, null=True, blank=True)
+    information_of_bolnyes_14 = models.CharField(max_length=20, null=True, blank=True)
+    information_of_bolnyes_15 = models.CharField(max_length=20, null=True, blank=True)
+    information_of_bolnyes_16 = models.CharField(max_length=20, null=True, blank=True)
+    information_of_bolnyes_17 = models.CharField(max_length=20, null=True, blank=True)
+    information_of_bolnyes_18 = models.CharField(max_length=20, null=True, blank=True)
+    information_of_bolnyes_19 = models.CharField(max_length=20, null=True, blank=True)
+    information_of_bolnyes_20 = models.CharField(max_length=20, null=True, blank=True)
+    information_of_bolnyes_21 = models.CharField(max_length=20, null=True, blank=True)
+    information_of_bolnyes_22 = models.CharField(max_length=20, null=True, blank=True)
+    information_of_bolnyes_23 = models.CharField(max_length=20, null=True, blank=True)
+    information_of_bolnyes_24 = models.CharField(max_length=20, null=True, blank=True)
+    information_of_bolnyes_25 = models.CharField(max_length=20, null=True, blank=True)
+    information_of_bolnyes_26 = models.CharField(max_length=20, null=True, blank=True)
+    information_of_bolnyes_27 = models.CharField(max_length=20, null=True, blank=True)
+    information_of_bolnyes_28 = models.CharField(max_length=20, null=True, blank=True)
+    information_of_bolnyes_29 = models.CharField(max_length=20, null=True, blank=True)
+    information_of_bolnyes_30 = models.CharField(max_length=20, null=True, blank=True)
+    information_of_bolnyes_31 = models.CharField(max_length=20, null=True, blank=True)
+    information_of_bolnyes_32 = models.CharField(max_length=20, null=True, blank=True)
+    information_of_bolnyes_33 = models.CharField(max_length=20, null=True, blank=True)
+    information_of_bolnyes_34 = models.CharField(max_length=20, null=True, blank=True)
+    information_of_bolnyes_35 = models.CharField(max_length=20, null=True, blank=True)
+    information_of_bolnyes_36 = models.CharField(max_length=20, null=True, blank=True)
+    information_of_bolnyes_37 = models.CharField(max_length=20, null=True, blank=True)
+    information_of_bolnyes_38 = models.CharField(max_length=20, null=True, blank=True)
+    information_of_bolnyes_39 = models.CharField(max_length=20, null=True, blank=True)
+    information_of_bolnyes_40 = models.CharField(max_length=20, null=True, blank=True)
+    objects = models.Manager()
+
+    class Meta:
+        verbose_name = 'Больные Курса'
+        verbose_name_plural = 'Больные курсов'
+
+
+
+class uvolnenies(models.Model):
+    Kursy =  models.ForeignKey(Kursy, on_delete=models.CASCADE, related_name='uvolnenies')
+    information_of_uvolnenies = models.CharField(max_length=20, null=True, blank=True)
+    information_of_uvolnenies_2 = models.CharField(max_length=20, null=True, blank=True)
+    information_of_uvolnenies_3 = models.CharField(max_length=20, null=True, blank=True)
+    information_of_uvolnenies_4 = models.CharField(max_length=20, null=True, blank=True)
+    information_of_uvolnenies_5 = models.CharField(max_length=20, null=True, blank=True)
+    information_of_uvolnenies_6 = models.CharField(max_length=20, null=True, blank=True)
+    information_of_uvolnenies_7 = models.CharField(max_length=20, null=True, blank=True)
+    information_of_uvolnenies_8 = models.CharField(max_length=20, null=True, blank=True)
+    information_of_uvolnenies_9 = models.CharField(max_length=20, null=True, blank=True)
+    information_of_uvolnenies_10 = models.CharField(max_length=20, null=True, blank=True)
+    information_of_uvolnenies_11 = models.CharField(max_length=20, null=True, blank=True)
+    information_of_uvolnenies_12 = models.CharField(max_length=20, null=True, blank=True)
+    information_of_uvolnenies_13 = models.CharField(max_length=20, null=True, blank=True)
+    information_of_uvolnenies_14 = models.CharField(max_length=20, null=True, blank=True)
+    information_of_uvolnenies_15 = models.CharField(max_length=20, null=True, blank=True)
+    information_of_uvolnenies_16 = models.CharField(max_length=20, null=True, blank=True)
+    information_of_uvolnenies_17 = models.CharField(max_length=20, null=True, blank=True)
+    information_of_uvolnenies_18 = models.CharField(max_length=20, null=True, blank=True)
+    information_of_uvolnenies_19 = models.CharField(max_length=20, null=True, blank=True)
+    information_of_uvolnenies_20 = models.CharField(max_length=20, null=True, blank=True)
+    information_of_uvolnenies_21 = models.CharField(max_length=20, null=True, blank=True)
+    information_of_uvolnenies_22 = models.CharField(max_length=20, null=True, blank=True)
+    information_of_uvolnenies_23 = models.CharField(max_length=20, null=True, blank=True)
+    information_of_uvolnenies_24 = models.CharField(max_length=20, null=True, blank=True)
+    information_of_uvolnenies_25 = models.CharField(max_length=20, null=True, blank=True)
+    information_of_uvolnenies_26 = models.CharField(max_length=20, null=True, blank=True)
+    information_of_uvolnenies_27 = models.CharField(max_length=20, null=True, blank=True)
+    information_of_uvolnenies_28 = models.CharField(max_length=20, null=True, blank=True)
+    information_of_uvolnenies_29 = models.CharField(max_length=20, null=True, blank=True)
+    information_of_uvolnenies_30 = models.CharField(max_length=20, null=True, blank=True)
+    information_of_uvolnenies_31 = models.CharField(max_length=20, null=True, blank=True)
+    information_of_uvolnenies_32 = models.CharField(max_length=20, null=True, blank=True)
+    information_of_uvolnenies_33 = models.CharField(max_length=20, null=True, blank=True)
+    information_of_uvolnenies_34 = models.CharField(max_length=20, null=True, blank=True)
+    information_of_uvolnenies_35 = models.CharField(max_length=20, null=True, blank=True)
+    information_of_uvolnenies_36 = models.CharField(max_length=20, null=True, blank=True)
+    information_of_uvolnenies_37 = models.CharField(max_length=20, null=True, blank=True)
+    information_of_uvolnenies_38 = models.CharField(max_length=20, null=True, blank=True)
+    information_of_uvolnenies_39 = models.CharField(max_length=20, null=True, blank=True)
+    information_of_uvolnenies_40 = models.CharField(max_length=20, null=True, blank=True)
+    objects = models.Manager()
+
+    class Meta:
+        verbose_name = 'Увольняемые Курса'
+        verbose_name_plural = 'Увольняемые курсов'
+
+
+
+class otpusks(models.Model):
+    Kursy =  models.ForeignKey(Kursy, on_delete=models.CASCADE, related_name='otpusks')
+    information_of_otpusks = models.CharField(max_length=20, null=True, blank=True)
+    information_of_otpusks_2 = models.CharField(max_length=20, null=True, blank=True)
+    information_of_otpusks_3 = models.CharField(max_length=20, null=True, blank=True)
+    information_of_otpusks_4 = models.CharField(max_length=20, null=True, blank=True)
+    information_of_otpusks_5 = models.CharField(max_length=20, null=True, blank=True)
+    information_of_otpusks_6 = models.CharField(max_length=20, null=True, blank=True)
+    information_of_otpusks_7 = models.CharField(max_length=20, null=True, blank=True)
+    information_of_otpusks_8 = models.CharField(max_length=20, null=True, blank=True)
+    information_of_otpusks_9 = models.CharField(max_length=20, null=True, blank=True)
+    information_of_otpusks_10 = models.CharField(max_length=20, null=True, blank=True)
+    information_of_otpusks_11 = models.CharField(max_length=20, null=True, blank=True)
+    information_of_otpusks_12 = models.CharField(max_length=20, null=True, blank=True)
+    information_of_otpusks_13 = models.CharField(max_length=20, null=True, blank=True)
+    information_of_otpusks_14 = models.CharField(max_length=20, null=True, blank=True)
+    information_of_otpusks_15 = models.CharField(max_length=20, null=True, blank=True)
+    information_of_otpusks_16 = models.CharField(max_length=20, null=True, blank=True)
+    information_of_otpusks_17 = models.CharField(max_length=20, null=True, blank=True)
+    information_of_otpusks_18 = models.CharField(max_length=20, null=True, blank=True)
+    information_of_otpusks_19 = models.CharField(max_length=20, null=True, blank=True)
+    information_of_otpusks_20 = models.CharField(max_length=20, null=True, blank=True)
+    information_of_otpusks_21 = models.CharField(max_length=20, null=True, blank=True)
+    information_of_otpusks_22 = models.CharField(max_length=20, null=True, blank=True)
+    information_of_otpusks_23 = models.CharField(max_length=20, null=True, blank=True)
+    information_of_otpusks_24 = models.CharField(max_length=20, null=True, blank=True)
+    information_of_otpusks_25 = models.CharField(max_length=20, null=True, blank=True)
+    information_of_otpusks_26 = models.CharField(max_length=20, null=True, blank=True)
+    information_of_otpusks_27 = models.CharField(max_length=20, null=True, blank=True)
+    information_of_otpusks_28 = models.CharField(max_length=20, null=True, blank=True)
+    information_of_otpusks_29 = models.CharField(max_length=20, null=True, blank=True)
+    information_of_otpusks_30 = models.CharField(max_length=20, null=True, blank=True)
+    information_of_otpusks_31 = models.CharField(max_length=20, null=True, blank=True)
+    information_of_otpusks_32 = models.CharField(max_length=20, null=True, blank=True)
+    information_of_otpusks_33 = models.CharField(max_length=20, null=True, blank=True)
+    information_of_otpusks_34 = models.CharField(max_length=20, null=True, blank=True)
+    information_of_otpusks_35 = models.CharField(max_length=20, null=True, blank=True)
+    information_of_otpusks_36 = models.CharField(max_length=20, null=True, blank=True)
+    information_of_otpusks_37 = models.CharField(max_length=20, null=True, blank=True)
+    information_of_otpusks_38 = models.CharField(max_length=20, null=True, blank=True)
+    information_of_otpusks_39 = models.CharField(max_length=20, null=True, blank=True)
+    information_of_otpusks_40 = models.CharField(max_length=20, null=True, blank=True)
+    objects = models.Manager()
+
+    class Meta:
+        verbose_name = 'Отпуск Курса'
+        verbose_name_plural = 'Отпуск курсов'
+
+

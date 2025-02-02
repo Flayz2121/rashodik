@@ -5,7 +5,7 @@ from django.contrib.auth.forms import UserCreationForm
 class CustomUserCreationForm(UserCreationForm):
     class Meta:
         model = CustomUser
-        fields = ['username', 'email', 'password', 'position']
+        fields = ['username', 'email', 'password', 'position','last_name']
 
 @admin.register(CustomUser)
 class YourUserAdmin(admin.ModelAdmin):

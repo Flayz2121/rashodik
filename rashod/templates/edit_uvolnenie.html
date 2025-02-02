@@ -1,0 +1,19 @@
+{% extends "base.html" %}
+
+{% block content %}
+ <form method="POST" action="{% url 'edit_uvolnenie' param1=name_kurs %}">
+        <table>
+            <tr>
+                <th>Увольнение: </th>
+            </tr>
+            <tr>
+                <td>
+                        {% csrf_token %}
+                        {{ form_uvolnenies.as_p }}
+                </td>
+            </tr>
+        </table>
+     <input type="submit" value="Сохранить" >
+ </form>
+
+{% endblock %}

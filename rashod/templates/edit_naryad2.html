@@ -2,65 +2,60 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Расход личного состава</title>
-
+    <title>ИЗМЕНИЕ В РАСХОДЕ</title>
 </head>
-<body>
+<body class="container">
+    <h2>Изменить расход {{ name_kurs }} курса </h2>
+    <form method="POST" action="{% url 'edit' param1=name_kurs %}">
+        {% csrf_token %}
+        <table>
+            <tr>
+                <th>По списку:</th>
+                <th>На лицо: </th>
+                <th>Наряд: </th>
+                <th>Болен: </th>
+                <th>Увольнение: </th>
+                <th>Отпуск: </th>
+            </tr>
+            <tr>
+                <td><input type="text" name="poSpisku" required/></td>
+                <td><input type="text" name="naLitso" required/></td>
+                <td><input type="text" name="naryad" required/></td>
+                <td><input type="text" name="bolnye" required/></td>
+                <td><input type="text" name="uvolnenie" required/></td>
+                <td><input type="text" name="otpusk" required/></td>
+            </tr>
+        </table>
+        <input type="submit" value="Сохранить" >
+    </form>
 
-<h2 class="active"> {{ username }}   <a href="{% url 'login'%}"> ВЫЙТИ </a></h2>
-
-<h2>РАСХОД {{ name_kurs }} КУРСА</h2>
-<form method="POST" action="{% url 'base' param1=username param2=name_kurs %}">
-    <table>
-        <tr>
-            <th>По списку:  </th>
-            <th>На лицо:    </th>
-            <th>Наряд:      </th>
-            <th>Болен:      </th>
-            <th>Увольнение: </th>
-            <th>Отпуск:     </th>
-        </tr>
-        <tr>
-
-            <td>
-                {% csrf_token %}
-                {{ po_spisku_form.as_p }}
-            </td>
-            <td>
-                {% csrf_token %}
-                {{ na_litso_form.as_p }}
-            </td>
-            <td>
-                {% csrf_token %}
-                {{ naryad_form.as_p }}
-            </td>
-            <td>
-                {% csrf_token %}
-                {{ bolnye_form.as_p }}
-            </td>
-            <td>
-                {% csrf_token %}
-                {{ uvolnenie_form.as_p }}
-            </td>
-            <td>
-                {% csrf_token %}
-                {{ otpusk_form.as_p }}
-            </td>
-        </tr>
-    </table>
-    <input type="submit" value="Сохранить" >
-</form>
-<h2> </h2>
-<a href="{% url 'base' param1=username param2=name_kurs %}"> Главная </a>
-<a href="{% url 'edit_naryad' param1=name_kurs %}"> Наряд </a>
-<a href="{% url 'edit_uvolnenie' param1=name_kurs %}"> Увольнение </a>
-<a href="{% url 'edit_bolen' param1=name_kurs %}"> Болен </a>
-<a href="{% url 'edit_otpusk' param1=name_kurs %}"> Отпуск </a>
+    <form method="POST" action="{% url 'edit' param1=name_kurs %}">
+        <table>
+            <tr>
+                <th>Наряд: </th>
+                <th>Болен: </th>
+                <th>Увольнение: </th>
+                <th>Отпуск: </th>
+            </tr>
+            <tr>
+                <td>
+                        {% csrf_token %}
+                        {{ form_naryads.as_p }}
+                </td>
+                <td>
+                        {% csrf_token %}
+                        {{ form_bolnyes.as_p }}
+                </td>
+                <td>{{ form_uvolnenies.as_p }}
+                <td>{{ form_otpusks.as_p }}
+            </tr>
+        </table>
+                    <input type="submit" value="Сохранить" >
+    </form>
 
 
 
-{% block content %}
-    <h2>Полный расход {{ name_kurs }} курса </h2>
+    <h2>Старый расход {{ name_kurs }} курса </h2>
     <table>
         <tr>
             <th>По списку:</th>
@@ -79,7 +74,7 @@
             <td>{{ otpusk }}</td>
         </tr>
     </table>
-
+    <h2> </h2>
 
     <table>
         <thead>
@@ -333,6 +328,7 @@
             </tr>
         </tbody>
     </table>
-{% endblock %}
+
+    <h2 class="active"><a href="{% url 'base' param1=username param2=position %}"> НА ГЛАВНУЮ </a></h2>
 </body>
 </html>
