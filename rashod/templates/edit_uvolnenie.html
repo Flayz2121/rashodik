@@ -1,15 +1,27 @@
 {% extends "base.html" %}
 
 {% block content %}
- <form method="POST" action="{% url 'edit_uvolnenie' param1=name_kurs %}">
+<h2>Увольнение</h2>
+
+ <form method="POST" action="{% url 'edit_uvolnenie' param1=name_kurs param3=a %}">
         <table>
             <tr>
                 <th>Увольнение: </th>
+                <th>Место увольнения: </th>
+                <th>Время нахождения в увольнении: </th>
             </tr>
             <tr>
                 <td>
                         {% csrf_token %}
                         {{ form_uvolnenies.as_p }}
+                </td>
+                <td>
+                        {% csrf_token %}
+                        {{ form_uvolnenies_mesto.as_p }}
+                </td>
+                <td>
+                        {% csrf_token %}
+                        {{ form_uvolnenies_vremya.as_p }}
                 </td>
             </tr>
         </table>

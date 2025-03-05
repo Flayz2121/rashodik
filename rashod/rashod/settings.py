@@ -79,7 +79,7 @@ WSGI_APPLICATION = 'rashod.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql',
-        'NAME': 'rashods',
+        'NAME': 'ras',
         'USER': 'postgres',
         'PASSWORD': '1',
         'HOST': 'localhost',

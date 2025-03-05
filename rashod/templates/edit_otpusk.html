@@ -1,15 +1,27 @@
 {% extends "base.html" %}
 
 {% block content %}
- <form method="POST" action="{% url 'edit_otpusk' param1=name_kurs %}">
+<h2>Отпуск</h2>
+
+ <form method="POST" action="{% url 'edit_otpusk' param1=name_kurs param3=a %}">
         <table>
             <tr>
                 <th>Отпуск: </th>
+                <th>Место нахождения в отпуске: </th>
+                <th>С какого числа в отпуске: </th>
             </tr>
             <tr>
                 <td>
                         {% csrf_token %}
                         {{ form_otpusks.as_p }}
+                </td>
+                <td>
+                        {% csrf_token %}
+                        {{ form_otpusks_mesto.as_p }}
+                </td>
+                <td>
+                        {% csrf_token %}
+                        {{ form_otpusks_vremya.as_p }}
                 </td>
             </tr>
         </table>

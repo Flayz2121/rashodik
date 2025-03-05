@@ -3,13 +3,144 @@
 <head>
     <meta charset="UTF-8">
     <title>Расход личного состава</title>
+<style>
+    body {
+        background-color: #f0f2f5;
+        font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+        margin: 20px;
+        color: #222;
+    }
 
+    h2 {
+        color: #45688E;
+        border-bottom: 2px solid #e7e8ec;
+        padding-bottom: 10px;
+        margin: 25px 0;
+    }
+
+    .active {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        background: #fff;
+        padding: 15px;
+        border-radius: 8px;
+        box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+    }
+
+    a {
+        color: #45688E;
+        text-decoration: none;
+        padding: 8px 12px;
+        transition: all 0.2s;
+    }
+
+    a:hover {
+        background-color: #f0f2f5;
+        border-radius: 4px;
+    }
+
+    table {
+        width: 100%;
+        border-collapse: collapse;
+        background: white;
+        border-radius: 8px;
+        overflow: hidden;
+        box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+        margin: 15px 0;
+    }
+
+    th, td {
+        padding: 12px 15px;
+        text-align: left;
+        border-bottom: 1px solid #e7e8ec;
+    }
+
+    th {
+        background-color: #fafbfc;
+        color: #45688E;
+        font-weight: 600;
+    }
+
+    tr:hover td {
+        background-color: #f5f6f8;
+    }
+
+    input[type="submit"] {
+        background: #5181b8;
+        color: white;
+        border: none;
+        padding: 10px 20px;
+        border-radius: 4px;
+        cursor: pointer;
+        font-size: 14px;
+        transition: background 0.2s;
+    }
+
+    input[type="submit"]:hover {
+        background: #45688E;
+    }
+
+    form table {
+        margin: 20px 0;
+        max-width: 800px;
+    }
+
+    form td {
+        vertical-align: top;
+        padding: 10px;
+    }
+
+    form p {
+        margin: 5px 0;
+    }
+
+    /* Стили для форм */
+    input, select {
+        padding: 8px;
+        border: 1px solid #d3d9de;
+        border-radius: 4px;
+        width: 120px;
+    }
+
+    input:focus, select:focus {
+        outline: none;
+        border-color: #a8c6e0;
+        box-shadow: 0 0 0 2px #e1f0ff;
+    }
+
+    /* Блоки с таблицами */
+    table table {
+        margin: 15px 0;
+        background: white;
+        box-shadow: none;
+    }
+
+    /* Навигационные ссылки */
+    body > a {
+        display: inline-block;
+        margin: 5px 10px 5px 0;
+        padding: 8px 12px;
+        background: #e5ebf1;
+        border-radius: 4px;
+    }
+
+    body > a:hover {
+        background: #dce2e8;
+    }
+</style><!-- ++ -->
 </head>
 <body>
 
-<h2 class="active"> {{ username }}   <a href="{% url 'login'%}"> ВЫЙТИ </a></h2>
+<h2 class="active"> {{ username }}
+    {% if b == 1 %}
+        <a href="{% url 'fakultet' param1=username param2=position_dezha %}"> НАЗАД  </a>
+    {% else %}
+        <a href="{% url 'login' %}"> ВЫЙТИ </a>
+    {% endif %}
+</h2>
 
-<h2>РАСХОД {{ name_kurs }} КУРСА</h2>
+<h2>РАСХОД {{ name_kurs }} {% if a == 1 %}КУРСА{% endif %}</h2>
 <form method="POST" action="{% url 'base' param1=username param2=name_kurs %}">
     <table>
         <tr>
@@ -17,7 +148,9 @@
             <th>На лицо:    </th>
             <th>Наряд:      </th>
             <th>Болен:      </th>
+            {% if a == 1 %}
             <th>Увольнение: </th>
+            {% endif %}
             <th>Отпуск:     </th>
         </tr>
         <tr>
@@ -38,10 +171,12 @@
                 {% csrf_token %}
                 {{ bolnye_form.as_p }}
             </td>
+            {% if a == 1 %}
             <td>
                 {% csrf_token %}
                 {{ uvolnenie_form.as_p }}
             </td>
+            {% endif %}
             <td>
                 {% csrf_token %}
                 {{ otpusk_form.as_p }}
@@ -51,23 +186,30 @@
     <input type="submit" value="Сохранить" >
 </form>
 <h2> </h2>
-<a href="{% url 'base' param1=username param2=name_kurs %}"> Главная </a>
-<a href="{% url 'edit_naryad' param1=name_kurs %}"> Наряд </a>
-<a href="{% url 'edit_uvolnenie' param1=name_kurs %}"> Увольнение </a>
-<a href="{% url 'edit_bolen' param1=name_kurs %}"> Болен </a>
-<a href="{% url 'edit_otpusk' param1=name_kurs %}"> Отпуск </a>
+<a href="{% url 'base' param1=username param2=name_kurs  %}"> Главная </a>
+<a href="{% url 'edit_naryad' param1=name_kurs param3=a %}"> Наряд </a>
+{% if a %}
+<a href="{% url 'edit_uvolnenie' param1=name_kurs param3=a %}"> Увольнение </a>
+{% endif %}
+<a href="{% url 'edit_bolen' param1=name_kurs param3=a %}"> Болен </a>
+<a href="{% url 'edit_otpusk' param1=name_kurs param3=a %}"> Отпуск </a>
+<a href="{% url 'make_kursants' param1=name_kurs  param3=a%}"> Личный состав </a>
+
+
 
 
 
 {% block content %}
-    <h2>Полный расход {{ name_kurs }} курса </h2>
+    <h2>Полный расход {{ name_kurs }} {% if a == 1 %}курса{% endif %} </h2>
     <table>
         <tr>
             <th>По списку:</th>
             <th>На лицо: </th>
             <th>Наряд: </th>
             <th>Болен: </th>
+            {% if a == 1 %}
             <th>Увольнение: </th>
+            {% endif %}
             <th>Отпуск: </th>
         </tr>
         <tr>
@@ -75,264 +217,97 @@
             <td>{{ naLitso }}</td>
             <td>{{ naryad }}</td>
             <td>{{ bolnye }}</td>
+            {% if a == 1 %}
             <td>{{ uvolnenie }}</td>
+            {% endif %}
             <td>{{ otpusk }}</td>
         </tr>
-    </table>
-
-
+    </table><!--Таблица РАСХОДА КУРСА-->
+    <h2> </h2>
     <table>
-        <thead>
-            <tr>
-                <th>Наряд:      </th>
-                <th>Увольнение: </th>
-                <th>Болен:      </th>
-                <th>Отпуск:     </th>
-            </tr>
-        </thead>
-        <tbody>
-            <tr>
-                <td>{% if information_of_naryads %} {{ information_of_naryads }} {% endif %}</td>  <!--1-->
-                <td>{% if information_of_uvolnenies %} {{ information_of_uvolnenies }} {% endif %}</td>
-                <td>{% if information_of_bolnyes %} {{ information_of_bolnyes }} {% endif %}</td>
-                <td>{% if information_of_otpusks %} {{ information_of_otpusks }} {% endif %}</td>
-            </tr>
-            <tr>
-                <td>{% if information_of_naryads_2 %} {{ information_of_naryads_2 }} {% endif %}</td>  <!--2-->
-                <td>{% if information_of_uvolnenies_2 %} {{ information_of_uvolnenies_2 }} {% endif %}</td>
-                <td>{% if information_of_bolnyes_2 %} {{ information_of_bolnyes_2 }} {% endif %}</td>
-                <td>{% if information_of_otpusks_2 %} {{ information_of_otpusks_2 }} {% endif %}</td>
-            </tr>
-            <tr>
-                <td>{% if information_of_naryads_3 %} {{ information_of_naryads_3 }} {% endif %}</td>  <!--3-->
-                <td>{% if information_of_uvolnenies_3 %} {{ information_of_uvolnenies_3 }} {% endif %}</td>
-                <td>{% if information_of_bolnyes_3 %} {{ information_of_bolnyes_3 }} {% endif %}</td>
-                <td>{% if information_of_otpusks_3 %} {{ information_of_otpusks_3 }} {% endif %}</td>
-            </tr>
-            <tr>
-                <td>{% if information_of_naryads_4 %} {{ information_of_naryads_4 }} {% endif %}</td>  <!--4-->
-                <td>{% if information_of_uvolnenies_4 %} {{ information_of_uvolnenies_4 }} {% endif %}</td>
-                <td>{% if information_of_bolnyes_4 %} {{ information_of_bolnyes_4 }} {% endif %}</td>
-                <td>{% if information_of_otpusks_4 %} {{ information_of_otpusks_4 }} {% endif %}</td>
-            </tr>
-            <tr>
-                <td>{% if information_of_naryads_5 %} {{ information_of_naryads_5 }} {% endif %}</td>  <!--5-->
-                <td>{% if information_of_uvolnenies_5 %} {{ information_of_uvolnenies_5 }} {% endif %}</td>
-                <td>{% if information_of_bolnyes_5 %} {{ information_of_bolnyes_5 }} {% endif %}</td>
-                <td>{% if information_of_otpusks_5 %} {{ information_of_otpusks_5 }} {% endif %}</td>
-            </tr>
-            <tr>
-                <td>{% if information_of_naryads_6 %} {{ information_of_naryads_6 }} {% endif %}</td>  <!--6-->
-                <td>{% if information_of_uvolnenies_6 %} {{ information_of_uvolnenies_6 }} {% endif %}</td>
-                <td>{% if information_of_bolnyes_6 %} {{ information_of_bolnyes_6 }} {% endif %}</td>
-                <td>{% if information_of_otpusks_6 %} {{ information_of_otpusks_6 }} {% endif %}</td>
-            </tr>
-            <tr>
-                <td>{% if information_of_naryads_7 %} {{ information_of_naryads_7 }} {% endif %}</td>  <!--7-->
-                <td>{% if information_of_uvolnenies_7 %} {{ information_of_uvolnenies_7 }} {% endif %}</td>
-                <td>{% if information_of_bolnyes_7 %} {{ information_of_bolnyes_7 }} {% endif %}</td>
-                <td>{% if information_of_otpusks_7 %} {{ information_of_otpusks_7 }} {% endif %}</td>
-            </tr>
-            <tr>
-                <td>{% if information_of_naryads_8 %} {{ information_of_naryads_8 }} {% endif %}</td>  <!--8-->
-                <td>{% if information_of_uvolnenies_8 %} {{ information_of_uvolnenies_8 }} {% endif %}</td>
-                <td>{% if information_of_bolnyes_8 %} {{ information_of_bolnyes_8 }} {% endif %}</td>
-                <td>{% if information_of_otpusks_8 %} {{ information_of_otpusks_8 }} {% endif %}</td>
-            </tr>
-            <tr>
-                <td>{% if information_of_naryads_9 %} {{ information_of_naryads_9 }} {% endif %}</td>  <!--9-->
-                <td>{% if information_of_uvolnenies_9 %} {{ information_of_uvolnenies_9 }} {% endif %}</td>
-                <td>{% if information_of_bolnyes_9 %} {{ information_of_bolnyes_9 }} {% endif %}</td>
-                <td>{% if information_of_otpusks_9 %} {{ information_of_otpusks_9 }} {% endif %}</td>
-            </tr>
-            <tr>
-                <td>{% if information_of_naryads_10 %} {{ information_of_naryads_10 }} {% endif %}</td>  <!--10-->
-                <td>{% if information_of_uvolnenies_10 %} {{ information_of_uvolnenies_10 }} {% endif %}</td>
-                <td>{% if information_of_bolnyes_10 %} {{ information_of_bolnyes_10 }} {% endif %}</td>
-                <td>{% if information_of_otpusks_10 %} {{ information_of_otpusks_10 }} {% endif %}</td>
-            </tr>
-            <tr>
-                <td>{% if information_of_naryads_11 %} {{ information_of_naryads_11 }} {% endif %}</td>  <!--11-->
-                <td>{% if information_of_uvolnenies_11 %} {{ information_of_uvolnenies_11 }} {% endif %}</td>
-                <td>{% if information_of_bolnyes_11 %} {{ information_of_bolnyes_11 }} {% endif %}</td>
-                <td>{% if information_of_otpusks_11 %} {{ information_of_otpusks_11 }} {% endif %}</td>
-            </tr>
-            <tr>
-                <td>{% if information_of_naryads_12 %} {{ information_of_naryads_12 }} {% endif %}</td>  <!--12-->
-                <td>{% if information_of_uvolnenies_12 %} {{ information_of_uvolnenies_12 }} {% endif %}</td>
-                <td>{% if information_of_bolnyes_12 %} {{ information_of_bolnyes_12 }} {% endif %}</td>
-                <td>{% if information_of_otpusks_12 %} {{ information_of_otpusks_12 }} {% endif %}</td>
-            </tr>
-            <tr>
-                <td>{% if information_of_naryads_13 %} {{ information_of_naryads_13 }} {% endif %}</td>  <!--13-->
-                <td>{% if information_of_uvolnenies_13 %} {{ information_of_uvolnenies_13 }} {% endif %}</td>
-                <td>{% if information_of_bolnyes_13 %} {{ information_of_bolnyes_13 }} {% endif %}</td>
-                <td>{% if information_of_otpusks_13 %} {{ information_of_otpusks_13 }} {% endif %}</td>
-            </tr>
-            <tr>
-                <td>{% if information_of_naryads_14 %} {{ information_of_naryads_14 }} {% endif %}</td>  <!--14-->
-                <td>{% if information_of_uvolnenies_14 %} {{ information_of_uvolnenies_14 }} {% endif %}</td>
-                <td>{% if information_of_bolnyes_14 %} {{ information_of_bolnyes_14 }} {% endif %}</td>
-                <td>{% if information_of_otpusks_14 %} {{ information_of_otpusks_14 }} {% endif %}</td>
-            </tr>
-            <tr>
-                <td>{% if information_of_naryads_15 %} {{ information_of_naryads_15 }} {% endif %}</td>  <!--15-->
-                <td>{% if information_of_uvolnenies_15 %} {{ information_of_uvolnenies_15 }} {% endif %}</td>
-                <td>{% if information_of_bolnyes_15 %} {{ information_of_bolnyes_15 }} {% endif %}</td>
-                <td>{% if information_of_otpusks_15 %} {{ information_of_otpusks_15 }} {% endif %}</td>
-            </tr>
-            <tr>
-                <td>{% if information_of_naryads_16 %} {{ information_of_naryads_16 }} {% endif %}</td>  <!--16-->
-                <td>{% if information_of_uvolnenies_16 %} {{ information_of_uvolnenies_16 }} {% endif %}</td>
-                <td>{% if information_of_bolnyes_16 %} {{ information_of_bolnyes_16 }} {% endif %}</td>
-                <td>{% if information_of_otpusks_16 %} {{ information_of_otpusks_16 }} {% endif %}</td>
-            </tr>
-            <tr>
-                <td>{% if information_of_naryads_17 %} {{ information_of_naryads_17 }} {% endif %}</td>  <!--17-->
-                <td>{% if information_of_uvolnenies_17 %} {{ information_of_uvolnenies_17 }} {% endif %}</td>
-                <td>{% if information_of_bolnyes_17 %} {{ information_of_bolnyes_17 }} {% endif %}</td>
-                <td>{% if information_of_otpusks_17 %} {{ information_of_otpusks_17 }} {% endif %}</td>
-            </tr>
-            <tr>
-                <td>{% if information_of_naryads_18 %} {{ information_of_naryads_18 }} {% endif %}</td>  <!--18-->
-                <td>{% if information_of_uvolnenies_18 %} {{ information_of_uvolnenies_18 }} {% endif %}</td>
-                <td>{% if information_of_bolnyes_18 %} {{ information_of_bolnyes_18 }} {% endif %}</td>
-                <td>{% if information_of_otpusks_18 %} {{ information_of_otpusks_18 }} {% endif %}</td>
-            </tr>
-            <tr>
-                <td>{% if information_of_naryads_19 %} {{ information_of_naryads_19 }} {% endif %}</td>  <!--19-->
-                <td>{% if information_of_uvolnenies_19 %} {{ information_of_uvolnenies_19 }} {% endif %}</td>
-                <td>{% if information_of_bolnyes_19 %} {{ information_of_bolnyes_19 }} {% endif %}</td>
-                <td>{% if information_of_otpusks_19 %} {{ information_of_otpusks_19 }} {% endif %}</td>
-            </tr>
-            <tr>
-                <td>{% if information_of_naryads_20 %} {{ information_of_naryads_20 }} {% endif %}</td>  <!--20-->
-                <td>{% if information_of_uvolnenies_20 %} {{ information_of_uvolnenies_20 }} {% endif %}</td>
-                <td>{% if information_of_bolnyes_20 %} {{ information_of_bolnyes_20 }} {% endif %}</td>
-                <td>{% if information_of_otpusks_20 %} {{ information_of_otpusks_20 }} {% endif %}</td>
-            </tr>
-            <tr>
-                <td>{% if information_of_naryads_21 %} {{ information_of_naryads_21 }} {% endif %}</td>  <!--21-->
-                <td>{% if information_of_uvolnenies_21 %} {{ information_of_uvolnenies_21 }} {% endif %}</td>
-                <td>{% if information_of_bolnyes_21 %} {{ information_of_bolnyes_21 }} {% endif %}</td>
-                <td>{% if information_of_otpusks_21 %} {{ information_of_otpusks_21 }} {% endif %}</td>
-            </tr>
-            <tr>
-                <td>{% if information_of_naryads_22 %} {{ information_of_naryads_22 }} {% endif %}</td>  <!--22-->
-                <td>{% if information_of_uvolnenies_22 %} {{ information_of_uvolnenies_22 }} {% endif %}</td>
-                <td>{% if information_of_bolnyes_22 %} {{ information_of_bolnyes_22 }} {% endif %}</td>
-                <td>{% if information_of_otpusks_22 %} {{ information_of_otpusks_22 }} {% endif %}</td>
-            </tr>
-            <tr>
-                <td>{% if information_of_naryads_23 %} {{ information_of_naryads_23 }} {% endif %}</td>  <!--23-->
-                <td>{% if information_of_uvolnenies_23 %} {{ information_of_uvolnenies_23 }} {% endif %}</td>
-                <td>{% if information_of_bolnyes_23 %} {{ information_of_bolnyes_23 }} {% endif %}</td>
-                <td>{% if information_of_otpusks_23 %} {{ information_of_otpusks_23 }} {% endif %}</td>
-            </tr>
-            <tr>
-                <td>{% if information_of_naryads_24 %} {{ information_of_naryads_24 }} {% endif %}</td>  <!--24-->
-                <td>{% if information_of_uvolnenies_24 %} {{ information_of_uvolnenies_24 }} {% endif %}</td>
-                <td>{% if information_of_bolnyes_24 %} {{ information_of_bolnyes_24 }} {% endif %}</td>
-                <td>{% if information_of_otpusks_24 %} {{ information_of_otpusks_24 }} {% endif %}</td>
-            </tr>
-            <tr>
-                <td>{% if information_of_naryads_25 %} {{ information_of_naryads_25 }} {% endif %}</td>  <!--25-->
-                <td>{% if information_of_uvolnenies_25 %} {{ information_of_uvolnenies_25 }} {% endif %}</td>
-                <td>{% if information_of_bolnyes_25 %} {{ information_of_bolnyes_25 }} {% endif %}</td>
-                <td>{% if information_of_otpusks_25 %} {{ information_of_otpusks_25 }} {% endif %}</td>
-            </tr>
-            <tr>
-                <td>{% if information_of_naryads_26 %} {{ information_of_naryads_26 }} {% endif %}</td>  <!--26-->
-                <td>{% if information_of_uvolnenies_26 %} {{ information_of_uvolnenies_26 }} {% endif %}</td>
-                <td>{% if information_of_bolnyes_25 %} {{ information_of_bolnyes_25 }} {% endif %}</td>
-                <td>{% if information_of_otpusks_26 %} {{ information_of_otpusks_26 }} {% endif %}</td>
-            </tr>
-            <tr>
-                <td>{% if information_of_naryads_27 %} {{ information_of_naryads_27 }} {% endif %}</td>  <!--27-->
-                <td>{% if information_of_uvolnenies_27 %} {{ information_of_uvolnenies_27 }} {% endif %}</td>
-                <td>{% if information_of_bolnyes_27 %} {{ information_of_bolnyes_27 }} {% endif %}</td>
-                <td>{% if information_of_otpusks_27 %} {{ information_of_otpusks_27 }} {% endif %}</td>
-            </tr>
-            <tr>
-                <td>{% if information_of_naryads_28 %} {{ information_of_naryads_28 }} {% endif %}</td>  <!--28-->
-                <td>{% if information_of_uvolnenies_28 %} {{ information_of_uvolnenies_28 }} {% endif %}</td>
-                <td>{% if information_of_bolnyes_28 %} {{ information_of_bolnyes_28 }} {% endif %}</td>
-                <td>{% if information_of_otpusks_28 %} {{ information_of_otpusks_28 }} {% endif %}</td>
-            </tr>
-            <tr>
-                <td>{% if information_of_naryads_29 %} {{ information_of_naryads_29 }} {% endif %}</td>  <!--29-->
-                <td>{% if information_of_uvolnenies_29 %} {{ information_of_uvolnenies_29 }} {% endif %}</td>
-                <td>{% if information_of_bolnyes_29 %} {{ information_of_bolnyes_29 }} {% endif %}</td>
-                <td>{% if information_of_otpusks_29 %} {{ information_of_otpusks_29 }} {% endif %}</td>
-            </tr>
-            <tr>
-                <td>{% if information_of_naryads_30 %} {{ information_of_naryads_30 }} {% endif %}</td>  <!--30-->
-                <td>{% if information_of_uvolnenies_30 %} {{ information_of_uvolnenies_30 }} {% endif %}</td>
-                <td>{% if information_of_bolnyes_30 %} {{ information_of_bolnyes_30 }} {% endif %}</td>
-                <td>{% if information_of_otpusks_30 %} {{ information_of_otpusks_30 }} {% endif %}</td>
-            </tr>
-            <tr>
-                <td>{% if information_of_naryads_31 %} {{ information_of_naryads_31 }} {% endif %}</td>  <!--31-->
-                <td>{% if information_of_uvolnenies_31 %} {{ information_of_uvolnenies_31 }} {% endif %}</td>
-                <td>{% if information_of_bolnyes_31 %} {{ information_of_bolnyes_31 }} {% endif %}</td>
-                <td>{% if information_of_otpusks_31 %} {{ information_of_otpusks_31 }} {% endif %}</td>
-            </tr>
-            <tr>
-                <td>{% if information_of_naryads_32 %} {{ information_of_naryads_32 }} {% endif %}</td>  <!--32-->
-                <td>{% if information_of_uvolnenies_32 %} {{ information_of_uvolnenies_32 }} {% endif %}</td>
-                <td>{% if information_of_bolnyes_32 %} {{ information_of_bolnyes_32 }} {% endif %}</td>
-                <td>{% if information_of_otpusks_32 %} {{ information_of_otpusks_32 }} {% endif %}</td>
-            </tr>
-            <tr>
-                <td>{% if information_of_naryads_33 %} {{ information_of_naryads_33 }} {% endif %}</td>  <!--33-->
-                <td>{% if information_of_uvolnenies_33 %} {{ information_of_uvolnenies_33 }} {% endif %}</td>
-                <td>{% if information_of_bolnyes_33 %} {{ information_of_bolnyes_33 }} {% endif %}</td>
-                <td>{% if information_of_otpusks_33 %} {{ information_of_otpusks_33 }} {% endif %}</td>
-            </tr>
-            <tr>
-                <td>{% if information_of_naryads_34 %} {{ information_of_naryads_34 }} {% endif %}</td>  <!--34-->
-                <td>{% if information_of_uvolnenies_34 %} {{ information_of_uvolnenies_34 }} {% endif %}</td>
-                <td>{% if information_of_bolnyes_34 %} {{ information_of_bolnyes_34 }} {% endif %}</td>
-                <td>{% if information_of_otpusks_34 %} {{ information_of_otpusks_34 }} {% endif %}</td>
-            </tr>
-            <tr>
-                <td>{% if information_of_naryads_35 %} {{ information_of_naryads_35 }} {% endif %}</td>  <!--35-->
-                <td>{% if information_of_uvolnenies_35 %} {{ information_of_uvolnenies_35 }} {% endif %}</td>
-                <td>{% if information_of_bolnyes_35 %} {{ information_of_bolnyes_35 }} {% endif %}</td>
-                <td>{% if information_of_otpusks_35 %} {{ information_of_otpusks_35 }} {% endif %}</td>
-            </tr>
-            <tr>
-                <td>{% if information_of_naryads_36 %} {{ information_of_naryads_36 }} {% endif %}</td>  <!--36-->
-                <td>{% if information_of_uvolnenies_36 %} {{ information_of_uvolnenies_36 }} {% endif %}</td>
-                <td>{% if information_of_bolnyes_36 %} {{ information_of_bolnyes_36 }} {% endif %}</td>
-                <td>{% if information_of_otpusks_36 %} {{ information_of_otpusks_36 }} {% endif %}</td>
-            </tr>
-            <tr>
-                <td>{% if information_of_naryads_37 %} {{ information_of_naryads_37 }} {% endif %}</td>  <!--37-->
-                <td>{% if information_of_uvolnenies_37 %} {{ information_of_uvolnenies_37 }} {% endif %}</td>
-                <td>{% if information_of_bolnyes_37 %} {{ information_of_bolnyes_37 }} {% endif %}</td>
-                <td>{% if information_of_otpusks_37 %} {{ information_of_otpusks_37 }} {% endif %}</td>
-            </tr>
-            <tr>
-                <td>{% if information_of_naryads_38 %} {{ information_of_naryads_38 }} {% endif %}</td>  <!--38-->
-                <td>{% if information_of_uvolnenies_38 %} {{ information_of_uvolnenies_38 }} {% endif %}</td>
-                <td>{% if information_of_bolnyes_38 %} {{ information_of_bolnyes_38 }} {% endif %}</td>
-                <td>{% if information_of_otpusks_38 %} {{ information_of_otpusks_38 }} {% endif %}</td>
-            </tr>
-            <tr>
-                <td>{% if information_of_naryads_39 %} {{ information_of_naryads_39 }} {% endif %}</td>  <!--39-->
-                <td>{% if information_of_uvolnenies_39 %} {{ information_of_uvolnenies_39 }} {% endif %}</td>
-                <td>{% if information_of_bolnyes_39 %} {{ information_of_bolnyes_39 }} {% endif %}</td>
-                <td>{% if information_of_otpusks_39 %} {{ information_of_otpusks_39 }} {% endif %}</td>
-            </tr>
-            <tr>
-                <td>{% if information_of_naryads_40 %} {{ information_of_naryads_40 }} {% endif %}</td>  <!--40-->
-                <td>{% if information_of_uvolnenies_40 %} {{ information_of_uvolnenies_40 }} {% endif %}</td>
-                <td>{% if information_of_bolnyes_40 %} {{ information_of_bolnyes_40 }} {% endif %}</td>
-                <td>{% if information_of_otpusks_40 %} {{ information_of_otpusks_40 }} {% endif %}</td>
-            </tr>
-        </tbody>
-    </table>
+            <thead>
+                <tr>
+                    <th>Наряд: </th>
+                    <th>Место нахождения в наряде: </th>
+                    <th>Время нахождения в наряде: </th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for name, place, time in zipped_data_naryads %}
+                    <tr>
+                        <td>{{ name }}</td>
+                        <td>{{ place }}</td>
+                        <td>{{ time }}</td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+</table><!--Таблица НАРЯДОВ-->
+    <h2> </h2>
+    <table>
+            <thead>
+                <tr>
+                    <th>Больные: </th>
+                    <th>Место нахождения: </th>
+                    <th>Время болезни: </th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for name, place, time in zipped_data_bolnyes %}
+                    <tr>
+                        <td>{{ name }}</td>
+                        <td>{{ place }}</td>
+                        <td>{{ time }}</td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+</table><!--Таблица БОЛЬНЫХ-->
+    {% if a == 1 %}
+    <h2> </h2>
+    <table>
+            <thead>
+                <tr>
+                    <th>Увольнения: </th>
+                    <th>Место нахождения в увольнении: </th>
+                    <th>Время нахождения в увольнении: </th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for name, place, time in zipped_data_uvolnenies %}
+                    <tr>
+                        <td>{{ name }}</td>
+                        <td>{{ place }}</td>
+                        <td>{{ time }}</td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+</table><!--Таблица УВОЛЬНЕНИЯ-->
+    {% endif %}
+    <h2> </h2>
+    <table>
+            <thead>
+                <tr>
+                    <th>Отпуск: </th>
+                    <th>Место нахождения в отпуске: </th>
+                    <th>Время нахождения в отпуске: </th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for name, place, time in zipped_data_otpusks %}
+                    <tr>
+                        <td>{{ name }}</td>
+                        <td>{{ place }}</td>
+                        <td>{{ time }}</td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+</table><!--Таблица ОТПУСКОВ-->
+
 {% endblock %}
 </body>
 </html>
+
+
+
+
+
+

@@ -1,15 +1,27 @@
 {% extends "base.html" %}
 
 {% block content %}
- <form method="POST" action="{% url 'edit_naryad' param1=name_kurs %}">
+<h2>Наряд</h2>
+
+ <form method="POST" action="{% url 'edit_naryad' param1=name_kurs param3=a %}">
         <table>
             <tr>
                 <th>Наряд: </th>
+                <th>Место нахождения: </th>
+                <th>Время нахождения в наряде: </th>
             </tr>
             <tr>
                 <td>
                         {% csrf_token %}
                         {{ form_naryads.as_p }}
+                </td>
+                <td>
+                        {% csrf_token %}
+                        {{ form_naryads_mesto.as_p }}
+                </td>
+                <td>
+                        {% csrf_token %}
+                        {{ form_naryads_vremya.as_p }}
                 </td>
             </tr>
         </table>

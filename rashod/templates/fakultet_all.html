@@ -1,0 +1,157 @@
+{% extends "fakultet.html" %}
+
+{% block title %}
+    <title>Сводная таблица расхода личного состава факультета</title>
+{% endblock %}
+
+{% block style %}
+    <style>
+        body {
+            background-color: #f0f2f5;
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            margin: 0;
+            padding: 10px;
+            color: #222;
+            font-size: 14px;
+        }
+
+        h1, h2 {
+            color: #45688E;
+            margin: 0 0 10px 0;
+        }
+
+        h1 {
+            font-size: 20px;
+        }
+
+        h2 {
+            font-size: 18px;
+            border-bottom: 1px solid #e7e8ec;
+            padding-bottom: 5px;
+        }
+
+        .active {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background: #fff;
+            padding: 15px;
+            border-radius: 8px;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+        }
+
+        a {
+            color: #45688E;
+            text-decoration: none;
+            padding: 8px 12px;
+            transition: all 0.2s;
+        }
+
+        a:hover {
+            background-color: #f0f2f5;
+            border-radius: 4px;
+        }
+
+            /* Навигационные ссылки */
+        body > a {
+            display: inline-block;
+            margin: 5px 10px 5px 0;
+            padding: 8px 12px;
+            background: #e5ebf1;
+            border-radius: 4px;
+        }
+
+        body > a:hover {
+            background: #dce2e8;
+        }
+
+        .table-wrapper {
+            overflow-x: auto;
+            background: white;
+            border-radius: 6px;
+            box-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
+            padding: 10px;
+            margin-bottom: 10px;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            font-size: 13px;
+        }
+
+        th, td {
+            padding: 8px 10px;
+            text-align: left;
+            border-bottom: 1px solid #e7e8ec;
+            white-space: nowrap;
+        }
+
+        th {
+            background-color: #fafbfc;
+            color: #45688E;
+            font-weight: 600;
+        }
+
+        tr:hover td {
+            background-color: #f5f6f8;
+        }
+
+        p {
+            color: #666;
+            font-style: italic;
+            margin: 5px 0;
+            font-size: 13px;
+        }
+    </style>
+{% endblock %}
+
+{% block content %}
+<body>
+
+    <h2 class="active"> {{ username }}   <a href="{% url 'login'%}"> ВЫЙТИ </a></h2>
+
+
+    <h2></h2>
+    <a href="{% url 'fakultet' param1=username param2=position  %}">По подразделениям</a>
+    <a href="{% url 'fakultet_all' param1=username param2=position %}">Сводная таблица</a>
+    <h2></h2>
+
+    <h1>Сводная таблица расхода {{ position }} факультета</h1>
+
+    <div class="table-wrapper">
+        <table>
+            <thead>
+                <tr>
+                    <th>Курс/Кафедра</th>
+                    <th>Воинское звание, Ф.И.О.</th>
+                    <th>Статус</th>
+                    <th>Место нахождения</th>
+                    <th>Время отсутствия</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for data in сводные_данные %}
+                    <tr>
+                        <td>
+                            {% if data.kurs_name == "11" or data.kurs_name == "12" or data.kurs_name == "13" or data.kurs_name == "14" or data.kurs_name == "15" or data.kurs_name == "21" or data.kurs_name == "22" or data.kurs_name == "23" or data.kurs_name == "24" or data.kurs_name == "25" or data.kurs_name == "31" or data.kurs_name == "32" or data.kurs_name == "33" or data.kurs_name == "34" or data.kurs_name == "35" or data.kurs_name == "41" or data.kurs_name == "42" or data.kurs_name == "43" or data.kurs_name == "44" or data.kurs_name == "45" or data.kurs_name == "51" or data.kurs_name == "52" or data.kurs_name == "53" or data.kurs_name == "54" or data.kurs_name == "55" or data.kurs_name == "61" or data.kurs_name == "62" or data.kurs_name == "63" or data.kurs_name == "64" or data.kurs_name == "65" or data.kurs_name == "71" or data.kurs_name == "72" or data.kurs_name == "73" or data.kurs_name == "74" or data.kurs_name == "75" or data.kurs_name == "81" or data.kurs_name == "82" or data.kurs_name == "83" or data.kurs_name == "84" or data.kurs_name == "85" or data.kurs_name == "91" or data.kurs_name == "92" or data.kurs_name == "93" or data.kurs_name == "94" or data.kurs_name == "95" or data.kurs_name == "СПО-1" or data.kurs_name == "СПО-2" or data.kurs_name == "СПО-3" or data.kurs_name == "СПО-4" or data.kurs_name == "СПО-5" or data.kurs_name == "СПЕЦФАК-1" or data.kurs_name == "СПЕЦФАК-2" or data.kurs_name == "СПЕЦФАК-3" or data.kurs_name == "СПЕЦФАК-4" or data.kurs_name == "СПЕЦФАК-5" %}
+                                {{ data.kurs_name }} курс
+                            {% else %}
+                               {{ data.kurs_name }}
+                            {% endif %}
+                        </td>
+                        <td>{{ data.name }}</td>
+                        <td>{{ data.status }}</td>
+                        <td>{{ data.place }}</td>
+                        <td>{{ data.time }}</td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+
+    {% if not сводные_данные %}
+        <p>Нет данных о расходе личного состава.</p>
+    {% endif %}
+</body>
+{% endblock %}

@@ -3,7 +3,7 @@ from .models import Kursy, naryads, bolnyes, uvolnenies, otpusks
 
 @admin.register(Kursy)
 class KursyAdmin(admin.ModelAdmin):
-    list_display = ('name_kurs', 'poSpisku', 'naLitso', 'naryad', 'bolnye', 'uvolnenie', 'otpusk')
+    list_display = ('name_kurs', 'poSpisku', 'naLitso', 'naryad', 'bolnye', 'uvolnenie', 'otpusk','fakultet')
 
 
     def naryad(self, obj):
@@ -20,7 +20,7 @@ class KursyAdmin(admin.ModelAdmin):
 
 @admin.register(naryads)
 class NaryadsAdmin(admin.ModelAdmin):
-    list_display = ('Kursy_id','information_of_naryads','information_of_naryads_2','information_of_naryads_3','information_of_naryads_4'
+    list_display = ('Kursy_id','information_of_naryads_1','information_of_naryads_2','information_of_naryads_3','information_of_naryads_4'
                     ,'information_of_naryads_5','information_of_naryads_6','information_of_naryads_7','information_of_naryads_8'
                     ,'information_of_naryads_9','information_of_naryads_10','information_of_naryads_11','information_of_naryads_12'
                     ,'information_of_naryads_13','information_of_naryads_14','information_of_naryads_15','information_of_naryads_16'
@@ -33,7 +33,7 @@ class NaryadsAdmin(admin.ModelAdmin):
 
 @admin.register(bolnyes)
 class BolnyesAdmin(admin.ModelAdmin):
-    list_display = ('Kursy_id','information_of_bolnyes','information_of_bolnyes_2','information_of_bolnyes_3','information_of_bolnyes_4',
+    list_display = ('Kursy_id','information_of_bolnyes_1','information_of_bolnyes_2','information_of_bolnyes_3','information_of_bolnyes_4',
                     'information_of_bolnyes_5','information_of_bolnyes_6','information_of_bolnyes_7','information_of_bolnyes_8',
                     'information_of_bolnyes_9','information_of_bolnyes_10','information_of_bolnyes_11','information_of_bolnyes_12',
                     'information_of_bolnyes_13','information_of_bolnyes_14','information_of_bolnyes_15','information_of_bolnyes_16',
@@ -46,7 +46,7 @@ class BolnyesAdmin(admin.ModelAdmin):
 
 @admin.register(uvolnenies)
 class UvolneniesAdmin(admin.ModelAdmin):
-    list_display = ('Kursy_id','information_of_uvolnenies','information_of_uvolnenies_2','information_of_uvolnenies_3','information_of_uvolnenies_4'
+    list_display = ('Kursy_id','information_of_uvolnenies_1','information_of_uvolnenies_2','information_of_uvolnenies_3','information_of_uvolnenies_4'
                     ,'information_of_uvolnenies_5','information_of_uvolnenies_6','information_of_uvolnenies_7','information_of_uvolnenies_8'
                     ,'information_of_uvolnenies_9','information_of_uvolnenies_10','information_of_uvolnenies_11','information_of_uvolnenies_12'
                     ,'information_of_uvolnenies_13','information_of_uvolnenies_14','information_of_uvolnenies_15','information_of_uvolnenies_16'
@@ -59,7 +59,7 @@ class UvolneniesAdmin(admin.ModelAdmin):
 
 @admin.register(otpusks)
 class OtpusksAdmin(admin.ModelAdmin):
-    list_display = ('Kursy_id','information_of_otpusks','information_of_otpusks_2','information_of_otpusks_3','information_of_otpusks_4'
+    list_display = ('Kursy_id','information_of_otpusks_1','information_of_otpusks_2','information_of_otpusks_3','information_of_otpusks_4'
                     ,'information_of_otpusks_5','information_of_otpusks_6','information_of_otpusks_7','information_of_otpusks_8'
                     ,'information_of_otpusks_9','information_of_otpusks_10','information_of_otpusks_11','information_of_otpusks_12'
                     ,'information_of_otpusks_13','information_of_otpusks_14','information_of_otpusks_15','information_of_otpusks_16'

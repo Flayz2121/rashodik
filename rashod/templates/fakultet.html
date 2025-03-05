@@ -1,0 +1,256 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    {% block title %}
+    <title>Расход личного состава факультета</title>
+    {% endblock %}
+    {% block style %}
+    <style>
+        /* Общие стили */
+        body {
+            background-color: #f0f2f5;
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            margin: 0;
+            padding: 10px;
+            color: #222;
+            font-size: 14px; /* Увеличенный базовый размер шрифта */
+        }
+
+        h1, h2 {
+            color: #45688E;
+            margin: 0 0 10px 0;
+        }
+
+        h1 {
+            font-size: 20px; /* Увеличенный размер заголовка */
+        }
+
+        h2 {
+            font-size: 18px; /* Увеличенный размер заголовка */
+            border-bottom: 1px solid #e7e8ec;
+            padding-bottom: 5px;
+        }
+
+        .active {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background: #fff;
+            padding: 15px;
+            border-radius: 8px;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+        }
+
+        a {
+            color: #45688E;
+            text-decoration: none;
+            padding: 8px 12px;
+            transition: all 0.2s;
+        }
+
+        a:hover {
+            background-color: #f0f2f5;
+            border-radius: 4px;
+        }
+
+            /* Навигационные ссылки */
+        body > a {
+            display: inline-block;
+            margin: 5px 10px 5px 0;
+            padding: 8px 12px;
+            background: #e5ebf1;
+            border-radius: 4px;
+        }
+
+        body > a:hover {
+            background: #dce2e8;
+        }
+
+        /* Сетка для размещения таблиц */
+        .grid-container {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr); /* 2 колонки */
+            gap: 10px;
+            margin-bottom: 10px;
+        }
+
+        /* Стили для таблиц */
+        .table-wrapper {
+            overflow-x: auto; /* Горизонтальная прокрутка для таблиц */
+            background: white;
+            border-radius: 6px;
+            box-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
+            padding: 10px; /* Увеличенный отступ */
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            font-size: 13px; /* Увеличенный размер шрифта */
+        }
+
+        th, td {
+            padding: 8px 10px; /* Увеличенный отступ */
+            text-align: left;
+            border-bottom: 1px solid #e7e8ec;
+            white-space: nowrap; /* Предотвращает перенос текста */
+        }
+
+        th {
+            background-color: #fafbfc;
+            color: #45688E;
+            font-weight: 600;
+        }
+
+        tr:hover td {
+            background-color: #f5f6f8;
+        }
+
+        /* Стили для факультетов, кафедр и курсов */
+        .fakultet, .kafedra, .kurs {
+            padding: 10px; /* Увеличенный отступ */
+            border-radius: 6px;
+            margin-bottom: 10px; /* Увеличенный отступ */
+            box-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
+        }
+
+        .fakultet {
+            background-color: #e3f2fd;
+        }
+
+        .kafedra {
+            background-color: #fbe9e7;
+            margin-bottom: 20px; /* Увеличенный отступ для кафедр */
+            border: 1px solid #ffccbc; /* Граница для кафедр */
+        }
+
+        .kurs {
+            background-color: #f0f2f5;
+            margin-bottom: 10px; /* Обычный отступ для курсов */
+        }
+
+        /* Разделитель между кафедрами и курсами */
+        .kafedra + .kurs {
+            margin-top: 20px; /* Отступ между кафедрой и следующим курсом */
+        }
+
+        /* Стили для сообщений */
+        p {
+            color: #666;
+            font-style: italic;
+            margin: 5px 0;
+            font-size: 13px; /* Увеличенный размер шрифта */
+        }
+
+        /* Адаптация для мобильных устройств */
+        @media (max-width: 768px) {
+            .grid-container {
+                grid-template-columns: repeat(1, 1fr); /* 1 колонка на мобильных */
+            }
+        }
+    </style>
+    {% endblock %}
+</head>
+{% block content %}
+<body>
+    <h2 class="active"> {{ username }}   <a href="{% url 'login'%}"> ВЫЙТИ </a></h2>
+
+    <h2></h2>
+    <a href="{% url 'fakultet' param1=username param2=position  %}"> По подразделениям </a>
+    <a href="{% url 'fakultet_all' param1=username param2=position %}"> Сводная таблица </a>
+    <h2></h2>
+
+    <h1>Расход {{ position }} факультета (по подразделениям)</h1>
+
+    <div class="grid-container">
+        {% for kurs_data in all_kursy_data %}
+            <div class="{% if 'факультет' in kurs_data.kurs_name.lower %}fakultet{% elif 'кафедра' in kurs_data.kurs_name.lower %}kafedra{% else %}kurs{% endif %}">
+                <h2>{{ kurs_data.kurs_name }}{% if kurs_data.a == 1 %} курс{% endif %} <a href="{% url 'base' param1=username param2=kurs_data.kurs_name%}">Изменить расход</a></h2>
+                <!-- Таблица РАСХОДА КУРСА -->
+                <div class="table-wrapper">
+                    <table>
+                        <tr>
+                            <th>По списку:</th>
+                            <th>На лицо:</th>
+                            <th>Наряд:</th>
+                            <th>Болен:</th>
+                            <th>Увольнение:</th>
+                            <th>Отпуск:</th>
+                        </tr>
+                        <tr>
+                            <td>{{ kurs_data.rashod.poSpisku }}</td>
+                            <td>{{ kurs_data.rashod.naLitso }}</td>
+                            <td>{{ kurs_data.rashod.naryad }}</td>
+                            <td>{{ kurs_data.rashod.bolnye }}</td>
+                            <td>{{ kurs_data.rashod.uvolnenie }}</td>
+                            <td>{{ kurs_data.rashod.otpusk }}</td>
+                        </tr>
+                    </table>
+                </div>
+
+                <!-- Основная таблица с данными -->
+                <div class="table-wrapper">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Воинское звание, Ф.И.О.</th>
+                                <th>Статус</th>
+                                <th>Место нахождения</th>
+                                <th>Время отсутствия</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <!-- Наряды -->
+                            {% for name, place, time in kurs_data.naryads %}
+                                <tr>
+                                    <td>{{ name }}</td>
+                                    <td>Наряд</td>
+                                    <td>{{ place }}</td>
+                                    <td>{{ time }}</td>
+                                </tr>
+                            {% endfor %}
+
+                            <!-- Больные -->
+                            {% for name, place, time in kurs_data.bolnyes %}
+                                <tr>
+                                    <td>{{ name }}</td>
+                                    <td>Болен</td>
+                                    <td>{{ place }}</td>
+                                    <td>{{ time }}</td>
+                                </tr>
+                            {% endfor %}
+
+                            <!-- Увольнения -->
+                            {% for name, place, time in kurs_data.uvolnenies %}
+                                <tr>
+                                    <td>{{ name }}</td>
+                                    <td>Увольнение</td>
+                                    <td>{{ place }}</td>
+                                    <td>{{ time }}</td>
+                                </tr>
+                            {% endfor %}
+
+                            <!-- Отпуска -->
+                            {% for name, place, time in kurs_data.otpusks %}
+                                <tr>
+                                    <td>{{ name }}</td>
+                                    <td>Отпуск</td>
+                                    <td>{{ place }}</td>
+                                    <td>{{ time }}</td>
+                                </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+
+                {% if not kurs_data.naryads and not kurs_data.bolnyes and not kurs_data.uvolnenies and not kurs_data.otpusks %}
+                    <p>Нет данных о расходе личного состава.</p>
+                {% endif %}
+            </div>
+        {% endfor %}
+    </div>
+</body>
+{% endblock %}
+</html>
